@@ -31,23 +31,21 @@ def printtotals(filereader,text_f):
             #print to text file
             newfile.write('\n'+line)
 
-#Sort budget list by date
-def sort_by_date(item):
-    #sort_date = item[0]
-    return(item[0])
 
+#-------------------------------------------
 #sort budget list by profit/losses amount
+#-------------------------------------------
 def sort_by_profitloss(item):
-    #sort_change = item[1]
     return(item[1]) 
 
 
 #---------------------------------------------------------------------------
-#determine change over the year and the average
+#determine change over the year and the average. Return list with each monthly change 
 #---------------------------------------------------------------------------
 def avg_year_change(budget_list,text_f):
     #create average change list
     monthly_change_list = []
+    date_change_list = []
     index = 1
     #counter = 1
 
@@ -59,16 +57,24 @@ def avg_year_change(budget_list,text_f):
             diff = int(month2[index]) - int(month1[index])
             #add difference to average change list
             monthly_change_list.append(diff)
+            #add associated date to date_change_list 
+            date_change_list.append(month2[index-1])
+
+    #Create list by merging monthly change with associated date
+    combined_list = list(zip(date_change_list, monthly_change_list))
+
 
     #get total change
-    change = 0
+    total_change = 0
     for x in range(len(monthly_change_list)):
-        change += monthly_change_list[x]
+        total_change += monthly_change_list[x]
     #calculate average change
-    avg_change = round(change/len(monthly_change_list),2)
+    avg_change = round(total_change/len(monthly_change_list),2)
     
-    
+    #--------------------------------------------
     #print output to terminal and to text file
+    #--------------------------------------------
+
     #open output file for writing (appending)
     with open(text_f, 'a') as outputfile:
         #print to terminal
@@ -77,8 +83,13 @@ def avg_year_change(budget_list,text_f):
         outputfile.write('\n'+"Average Change: $"+str(avg_change))
 
 
+    #return list of dates and associated monthly change
+    return(combined_list)
+
+
 #---------------------------------------------------------------------------
-#Determine greatest increase and decrease and print t terminal and text file
+#Determine greatest increase and decrease and print to terminal and text file
+#List is already sorted by profit/losses
 #---------------------------------------------------------------------------
 def greatest_least(budget_lst,text_f):
     #greatest decrease
@@ -119,15 +130,11 @@ with open(budget_data_path, 'r') as csvfile:
     # Skip header row
     header = next(csvreader)
 
-    #create list from csv file - this changes csvreader
-    #budget_list = list(csvreader)
-
-    #print(budget_list)
     # print total number of months in dataset and 
     # net total amount of "Profit/Losses" over the period
     printtotals(csvreader,textfile_path)
 
-#re-initialize csvreader
+#re-create csvreader,as it no longer exists
 with open(budget_data_path, 'r') as csvfile:
 
     csvreader = csv.reader(csvfile, delimiter=',')
@@ -135,22 +142,20 @@ with open(budget_data_path, 'r') as csvfile:
     # Skip header row
     header = next(csvreader)
 
-    #convert csv to a list - this changes csvreader
+    #convert csv to a list
     budget_list = list(csvreader)
     
 
-    #sort list by date
-    #sorted_budget_list = sorted(budget_list, key=sort_by_date)
-    avg_year_change(budget_list,textfile_path)
-    # print(f"Sorted list '\n'")
-    # for row in csvreader:
-    #     print(row)
-    # print('\n') 
+    #determine monthly change and associated date. Return these as a list.
+    #Print average change based on calculated monthly change
+    new_budget_list = avg_year_change(budget_list,textfile_path)
+     
 
-    #sort list in ascending order of profit/losses
-    sorted_budget_list = sorted(budget_list, key=sort_by_profitloss)
-    #print(sorted_budget_list)
-    greatest_least(sorted_budget_list,textfile_path)
+    #sort monthly change list in ascending order of profit/losses
+    sorted_budget_change_list = sorted(new_budget_list, key=sort_by_profitloss)
+
+    #determine greatest and least monthly change and print
+    greatest_least(sorted_budget_change_list,textfile_path)
 
 
 
