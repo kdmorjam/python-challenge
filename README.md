@@ -16,7 +16,7 @@ The tasks for this script are broken into four functions.
     
 In PyPoll, main.py reads election_data.csv in the Resources folder and writes the results 
 to election_results.txt in the analysis folder and the terminal.
-The tasks for this script are broken into four functions.
+The tasks for this script are broken into seven functions.
   * printtotal_votes
   * calc_cand_vote
   * calc_vote_percent
