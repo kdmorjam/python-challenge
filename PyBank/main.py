@@ -114,8 +114,6 @@ def greatest_least(budget_lst,text_f):
 
 
 
-
-
 # Path to collect data from the Resources folder
 budget_data_path = os.path.join("Resources", "budget_data.csv")
 #Path to write text file to analysis folder
@@ -156,15 +154,3 @@ with open(budget_data_path, 'r') as csvfile:
 
     #determine greatest and least monthly change and print
     greatest_least(sorted_budget_change_list,textfile_path)
-
-
-
-
-
-
-
-# The changes in "Profit/Losses" over the entire period, and then the average of those changes
-
-# The greatest increase in profits (date and amount) over the entire period
-
-# The greatest decrease in profits (date and amount) over the entire period
