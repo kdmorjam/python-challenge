@@ -25,6 +25,9 @@ def printtotal_votes(filereader,text_f):
 
     return(total_votes)
 
+#----------------------------------------------------------------------
+# Calculates the votes cast for each candidate and return in a list
+#---------------------------------------------------------------------
 def calc_cand_vote(election_lst):
      #create average change list
     name_list = []
