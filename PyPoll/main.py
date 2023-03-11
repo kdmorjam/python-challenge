@@ -69,9 +69,9 @@ def calc_vote_percent(vote_list, total):
         #add result to percentage list
         percent_list.append(percent_amt)
         
-    #----------------------------------------------
-    # Create a list of lists. Add percentage votes to 
-    #---------------------------------------------
+    #-----------------------------------------------------------------------
+    # Create a list of lists. Add percentage votes to name & vote count list
+    #-----------------------------------------------------------------------
     final_list = list(zip(vote_list, percent_list))
     
     return(final_list)
